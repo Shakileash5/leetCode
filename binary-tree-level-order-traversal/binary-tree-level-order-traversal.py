@@ -11,33 +11,34 @@ class Solution:
         rootTemp = root
         maxDepth = [-1]
         
-        def recurDepth(root,maxLevel):
-            if root==None:
-                return 
-            recurDepth(root.left,maxLevel+1)
-            if maxDepth[0]<maxLevel:
-                maxDepth[0] = maxLevel
-            recurDepth(root.right,maxLevel+1)
-            
-            return
+        if root == None:
+            return res
         
-        recurDepth(rootTemp,0)
-        res = [None]*(maxDepth[0]+1)
-        
-        def recur(root,level):
-            if root==None:
-                return
-            
-            recur(root.left,level+1)
-            if res[level] == None:
-                res[level] = [root.val]
+        resQueqe = []
+        res = []
+        resQueqe.append(root)
+        resQueqeAlter = []
+        count = 0
+        levelOrder = []
+        while(len(resQueqe)>0):
+            res = resQueqe.pop(0)
+            if len(levelOrder)<count+1:
+                levelOrder.append([res.val])
             else:
-                res[level].append(root.val)
-            #print(level,root.val,res)   
-            recur(root.right,level+1)
+                levelOrder[count].append(res.val)
+            #print(res.val)
+            if res.left!=None:
+                resQueqeAlter.append(res.left)
+            if res.right!=None:
+                resQueqeAlter.append(res.right)
+            if len(resQueqe)==0:
+                #print(resQueqeAlter)
+                resQueqe = resQueqeAlter[:]
+                resQueqeAlter = []
+                count+=1
             
-            return
+            
         
-        recur(root,0)
-        #print(res)
-        return res
+        
+        #print(levelOrder)
+        return levelOrder
