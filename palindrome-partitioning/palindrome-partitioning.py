@@ -24,12 +24,12 @@ class Solution:
                 return
             
             for i in range(idx,size):
-                for j in range(i+1,size+1):
-                    string = s[i:j]
+                #for j in range(i+1,size+1):
+                    string = s[idx:i+1]
                     #print(string)
                     if iSValidPalindrome(string,len(string)):
                         
-                        backtrack(j,partitions+[string])
+                        backtrack(i+1,partitions+[string])
             return
         
         backtrack(0,[])
