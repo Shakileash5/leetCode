@@ -11,20 +11,24 @@ class Solution:
             flag = 0
             if head.val == val:
                 #print(prev,head)
-                if prev == None:
-                    headTemp = head.next
-                    flag = 1
-                else:
-                    prev.next = head.next
-                    #print("\n",prev,"\n")
-                    flag = 2
-                    #head.next = None
-            if flag == 1:
-                prev = None
-                head = head.next
-            elif flag ==2:
-                head = head.next
-            else:
+                flag = 1
+                while(head.val == val):
+                    if head.next is not None:
+                        #prev = head
+                        head.val = head.next.val
+                        head.next = head.next.next
+                    else:
+                        #print("here",head)
+                        if prev == None:
+                            headTemp = None
+                            head = None
+                            #print("here2",headTemp,head)
+                            break
+                        else:
+                            prev.next = None
+                            head = None
+                            break
+            if flag == 0:
                 prev = head
                 head = head.next
         
