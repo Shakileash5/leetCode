@@ -1,12 +1,7 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         
-        size = len(s)
-        if size == 1:
-            if s in wordDict:
-                return True
-            else:
-                return False
+        
         @cache
         def recur(idx,words):
             if idx>=size:
@@ -42,8 +37,17 @@ class Solution:
                         return True
             return False
         
-        words = []
-        
-        return recur(0,'')
+        #size = len(s)
+        #words = []
+        #recur(0,'')
+        wordDict = set(wordDict)
+        dp = [True] + [False] * len(s)
+        for i in range(len(s)):
+            if dp[i]:
+                for j in range(i, len(dp)):
+                    if s[i:j] in wordDict:
+                        dp[j] = True
+        return dp[-1]
+
         
         
