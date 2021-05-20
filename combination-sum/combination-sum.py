@@ -22,8 +22,20 @@ class Solution:
             
             return
         
-        #backtrack(0,candidates,res,[])
-        backtrackRewind(0,[])
+        def backtrackSolTwo(idx,sum_,temp):
+            if sum_ == 0:
+                if temp not in res:
+                    res.append(temp)
+                #print(temp)
+                return
+            for i in range(idx,size):
+                if sum_ - candidates[i] >= 0:
+                    backtrackSolTwo(i,sum_-candidates[i],temp+[candidates[i]])
+            return
         
+        
+        #backtrack(0,candidates,res,[])
+        #backtrackRewind(0,[])
+        backtrackSolTwo(0,target,[])
         #print(res)
         return res
