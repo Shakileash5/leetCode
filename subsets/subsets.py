@@ -1,4 +1,12 @@
 class Solution:
+    def solutionTwo(self,idx,temp,nums,res):
+        if idx>=len(nums):
+            res.append(temp)
+            return
+        #for i in range(idx,len(nums)):
+        self.solutionTwo(idx+1,temp,nums,res)
+        self.solutionTwo(idx+1,temp+[nums[idx]],nums,res)
+        return
     def subsets(self, nums: List[int]) -> List[List[int]]:
         size =len(nums)
         
@@ -13,9 +21,9 @@ class Solution:
             return
         
         res = []
-        for i in range(size+1):
-            backtrack(0,[],res,i)
+        #for i in range(size+1):
+        #    backtrack(0,[],res,i)
         #print(res)
-        
+        self.solutionTwo(0,[],nums,res)
         return res
         
