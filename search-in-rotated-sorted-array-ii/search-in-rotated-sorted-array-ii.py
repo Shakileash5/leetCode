@@ -1,4 +1,25 @@
 class Solution:
+    def binarySearch(self,left,right,target,nums) -> bool:
+        if left>right:
+            return False
+        mid = (left + right)//2
+        if nums[mid] == target:
+            return True
+        if nums[0]<=nums[mid]:
+            if target>=nums[0] and target<nums[mid]:
+                return self.binarySearch(left,mid-1,target,nums)
+            elif target>=nums[0] and target>nums[mid]:
+                return self.binarySearch(mid+1,right,target,nums)
+            elif target<nums[0] and target<nums[mid]:
+                return self.binarySearch(mid+1,right,target,nums)
+        else:
+            if target<=nums[-1] and nums[mid]<target:
+                return self.binarySearch(mid+1,right,target,nums)
+            elif target<=nums[-1] and nums[mid]>target:
+                return self.binarySearch(left,mid-1,target,nums)
+            elif target>num[-1] and target>nums[mid]:
+                return self.binarySearch(left,mid-1,target,nums)
+    
     def search(self, nums: List[int], target: int) -> bool:
         
         size = len(nums)
@@ -24,5 +45,5 @@ class Solution:
                         print("frr")
                         return binary(target,mid+1,right)
         
-        return binary(target,0,size-1)
-        
+        #return binary(target,0,size-1)
+        return self.binarySearch(0,size-1,target,nums)
