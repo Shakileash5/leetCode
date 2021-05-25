@@ -5,6 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    
+    def inorder(self,root,temp):
+        if root == None:
+            return True
+        if self.inorder(root.left,temp) == False:
+            return False
+        if temp==[] or temp[-1]<root.val:
+            temp.append(root.val)
+        else:
+            return False
+        if self.inorder(root.right,temp) == False:
+            return False
+        return True
+    
     def isValidBST(self, root: TreeNode) -> bool:
         
         res = []
@@ -24,10 +38,10 @@ class Solution:
             if u == False:
                 return False
         
-        result = recur(root)
-        if result == None:
-            return True
-        else:
-            return False
-            
+        #result = recur(root)
+        #if result == None:
+        #    return True
+        #else:
+        #    return False
+        return self.inorder(root,[])    
         
