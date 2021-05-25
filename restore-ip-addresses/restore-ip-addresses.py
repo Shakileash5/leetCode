@@ -1,10 +1,25 @@
 class Solution:
-    def restoreIpAddresses(self, s: str) -> List[str]:
+    
+    def backtrack(self,idx,temp,count,res,s):
+        if count>=4:
+            #print(temp)
+            if idx == len(s):
+                res.append(temp[:-1])
+            return
         
+        for i in range(1,4):
+            #print( s[idx:idx+i],"k",s[idx:idx+i]=='' )
+            if s[idx:idx+i]!='' and 0<=int(s[idx:idx+i])<=255:
+                if len(s[idx:idx+i])>1 and s[idx:idx+i][0]=='0':
+                    continue
+                self.backtrack(idx+i,temp+s[idx:idx+i]+".",count+1,res,s)
+        return
+        
+    
+    
+    def restoreIpAddresses(self, s: str) -> List[str]:
         size = len(s)
         #print(size)
-        
-        
         res = []
         
         def isValid(data):
@@ -46,7 +61,7 @@ class Solution:
             
             return
         
-        backtrack([],0)
+        #backtrack([],0)
         #print(res)
-        
+        self.backtrack(0,"",0,res,s)
         return res
