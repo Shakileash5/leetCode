@@ -5,6 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def isMirror(self,root1,root2):
+        if root1 == None and root2 == None:
+            return True
+        elif root1==None and root2 or root2==None and root1:
+            return False
+        if root1.val!=root2.val:
+            return False
+        res1 = self.isMirror(root1.left,root2.right)
+        res2 = self.isMirror(root1.right,root2.left)
+        if res2==res1 and res2 == True:
+            return True
+        else:
+            return False
+    
     def isSymmetric(self, root: TreeNode) -> bool:
         leftTree = root.left
         rightTree = root.right
@@ -23,5 +37,5 @@ class Solution:
                             return False
             return False
         
-        return isSymmentry(root,root)
-        
+        #return isSymmentry(leftTree,rightTree)
+        return self.isMirror(leftTree,rightTree)
