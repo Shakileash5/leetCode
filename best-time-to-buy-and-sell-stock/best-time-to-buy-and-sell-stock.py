@@ -1,6 +1,18 @@
 class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
+    def localMaxMin(self,prices):
+        maxProfit = 0
+        buy = prices[0]
+        size = len(prices)
         
+        for i in range(1,size):
+            if buy>prices[i]:
+                buy = prices[i]
+            else:
+                maxProfit = max(maxProfit,prices[i]-buy)
+        #print(maxProfit)
+        return maxProfit
+        
+    def maxProfit(self, prices: List[int]) -> int:
         def recur(arr,idx,val,maxVal):
             if arr == []:
                 return
@@ -21,23 +33,15 @@ class Solution:
             recur(arr,idx+1,val,maxVal)
             return maxVal[0]
         
-        size = len(prices)
-        maximum = -1
-        #for i in range(size-1):
-        #    val = recur(prices[i+1:],0,prices[i],[-1])
-            #print(i,prices[i],val,prices[i+1:])
-        #    if val !=-1:
-        #        if (val - prices[i])>maximum:
-        #            maximum = val - prices[i]
-        #            print("min",maximum)
-        #if maximum == -1:
-        #    return 0
+        def solutionOne():
+            size = len(prices)
+            minVal = prices[0]
+            maxProfit = -1
+            for i in range(size):
+                minVal = min(prices[i],minVal)
+                tempProfit = prices[i] - minVal
+                maxProfit = max(maxProfit,tempProfit)
+            return maxProfit
         
-        minVal = prices[0]
-        maxProfit = -1
-        for i in range(size):
-            minVal = min(prices[i],minVal)
-            tempProfit = prices[i] - minVal
-            maxProfit = max(maxProfit,tempProfit)
-            
-        return maxProfit
+        return self.localMaxMin(prices)
+        
