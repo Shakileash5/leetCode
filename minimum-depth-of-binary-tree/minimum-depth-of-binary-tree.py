@@ -5,6 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def minDeptTwo(self,root):
+        if root == None:
+            return 0
+        
+        res = self.minDeptTwo(root.left)
+        res2 = self.minDeptTwo(root.right)
+        
+        if res == 0 and res2 != 0:
+            return res2 +1
+        elif res != 0 and res2 == 0:
+            return res + 1
+        else:
+            return min(res,res2)+1
+    
     def minDepth(self, root: TreeNode) -> int:
         
         if root == None:
@@ -25,6 +39,6 @@ class Solution:
             
             return
         
-        recur(root,1)
-        return minHeight[0]
-        
+        #recur(root,1)
+        #return minHeight[0]
+        return self.minDeptTwo(root)
