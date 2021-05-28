@@ -5,11 +5,39 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def isBalancedTwo(self,root):
+        def height(root):
+            if root == None:
+                return 0
+            
+            return max(height(root.left),height(root.right)) + 1
+        
+        def recur(root):
+            if root == None:
+                return True
+            
+            heightL = height(root.left)
+            heightR = height(root.right)
+            
+            if abs(heightL-heightR)>1:
+                return False
+            
+            if recur(root.left) == False:
+                return False
+            if recur(root.right) == False:
+                return False
+            
+            return True
+            
+        #print()
+        return recur(root)
+        
+        
     def isBalanced(self, root: TreeNode) -> bool:
         
         if root == None:
             return True
-        high = [0]
+        
         def height(root,hh,high):
             if root == None:
                 return None
@@ -20,9 +48,6 @@ class Solution:
             height(root.right,hh+1,high)
             
             return high[0]
-        
-        height(root,1,high)
-        print(high[0])    
         
         def recur(root,leftHigh,rightHigh):
             
@@ -37,16 +62,15 @@ class Solution:
             rh = 0
             if root.right:
                 rh = height(root.right,1,high)
-            print(root.val,lh,rh)
+            #print(root.val,lh,rh,leftHigh,rightHigh)
             if abs(lh-rh)>1:
                 return False
             if recur(root.left,leftHigh+1,rightHigh) == False:
                 return False
-            
             if recur(root.right,leftHigh,rightHigh+1) == False:
                 return False
             
-            
             return True
         
-        return (recur(root,1,1))
+        #return recur(root,1,1)
+        return self.isBalancedTwo(root)
