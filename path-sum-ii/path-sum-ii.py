@@ -5,6 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def pathSumTwo(self,root,sum_,temp,target):
+        if root == None:
+            return
+        
+        if root.left == None and root.right == None and sum_+root.val == target:
+            cp = temp[:]
+            cp.append(root.val)
+            self.res.append(cp)
+        
+        self.pathSumTwo(root.left,sum_+root.val,temp+[root.val],target)
+        self.pathSumTwo(root.right,sum_+root.val,temp+[root.val],target)
+        
+        return
+        
     def pathSum(self, root: TreeNode, targetSum: int) -> List[List[int]]:
         
         res = []
@@ -26,5 +40,8 @@ class Solution:
             
             return 
         
-        recurInorder(root,0,[])
-        return res
+        #recurInorder(root,0,[])
+        #return res
+        self.res = []
+        self.pathSumTwo(root,0,[],targetSum)
+        return self.res
