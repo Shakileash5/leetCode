@@ -5,43 +5,47 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def pathSumTwo(self,root,target,temp):
+        if root == None:
+            return 
+        #print(sum_,root.val)
+        #if sum_+root.val>=target:
+        sumCheck = 0
+        temp.append(root.val)
+        for i in range(len(temp)-1,-1,-1):
+            sumCheck += temp[i]
+            if sumCheck == target:
+                self.count +=1
+        temp.pop()
+        
+        self.pathSumTwo(root.left,target,temp+[root.val])
+        self.pathSumTwo(root.right,target,temp+[root.val])
+    
     def pathSum(self, root: TreeNode, targetSum: int) -> int:
         
         count = [0]
-        resPaths = []
-        def recur(root,path):
+        
+        def recur(root,path,pathSum):
             
             #print(path
             if root == None:
                 return
-            """if path!=[]:
-                #print(path)
-                if sum(path) == targetSum:
-                    count[0]+=1
-                    #print("yes")
-                    resPaths.append(path)
-                if sum(path)!=targetSum:
-                    dif = sum(path) - targetSum
-                    if dif in path:
-                        
-                        temp = path[:]
-                        temp.remove(dif)
-                        if temp not in resPaths:
-                            count[0]+=1
-                            resPaths.append(temp)
-                            #print("yes in diff",dif,temp,resPaths)"""
+            
             sumVal = 0
             for i in range(len(path)-1,-1,-1):
                 sumVal += path[i]
                 if sumVal == targetSum:
                     count[0]+=1
             if root.left:
-                recur(root.left,path+[root.left.val])
+                recur(root.left,path+[root.left.val],pathSum)
             if root.right:
-                recur(root.right,path+[root.right.val])
+                recur(root.right,path+[root.right.val],pathSum)
             
             return
-        if root:
-            recur(root,[root.val])
-        
-        return count[0]            
+        #if root:
+        #    recur(root,[root.val],0)
+        #return count[0] 
+        print(root)
+        self.count = 0
+        self.pathSumTwo(root,targetSum,[])
+        return self.count
