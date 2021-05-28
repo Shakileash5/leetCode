@@ -5,6 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    
+    def buildTree(self,arr,left,right):
+        if left>right:
+            return None
+        
+        mid = (left+right)//2
+        node = TreeNode(arr[mid])
+        
+        if left == right:
+            return node
+        node.left = self.buildTree(arr,left,mid-1)
+        node.right = self.buildTree(arr,mid+1,right)
+        return node
+    
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
         
         
@@ -23,7 +37,7 @@ class Solution:
             
             return node
         
-        tree = buildTree(nums,0,len(nums)-1)
-
-        return tree
+        #tree = buildTree(nums,0,len(nums)-1)
+        #return tree
+        return self.buildTree(nums,0,len(nums)-1)
         
