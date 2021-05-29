@@ -1,4 +1,25 @@
 class Solution:
+    def partitionTwo(self,s):
+        size = len(s)
+        res = []
+        def isPalindrome(s):
+            mid = len(s)
+            if s[:mid] == s[-mid:][::-1]:
+                return True
+            return False
+        
+        def backtrack(idx,temp):
+            if idx>=size:
+                res.append(temp)
+                return
+            for i in range(idx,size):
+                subStr = s[idx:i+1]
+                if isPalindrome(subStr):
+                    backtrack(i+1,temp+[subStr])
+            return
+        backtrack(0,[])
+        return res
+    
     def partition(self, s: str) -> List[List[str]]:
         
         size = len(s)
@@ -32,7 +53,6 @@ class Solution:
                         backtrack(i+1,partitions+[string])
             return
         
-        backtrack(0,[])
-        
-        return allPartitions
-        
+        #backtrack(0,[])
+        #return allPartitions
+        return self.partitionTwo(s)
