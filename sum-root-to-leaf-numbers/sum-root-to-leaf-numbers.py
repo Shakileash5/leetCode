@@ -5,6 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def dfs(self,root,path):
+        if root == None:
+            return
+        
+        if root.left == None and root.right == None:
+            path = path+str(root.val)
+            #print(path)
+            self.res += int(path)
+        
+        self.dfs(root.left,path+str(root.val))
+        self.dfs(root.right,path+str(root.val))
+        return
+    
+    
     def sumNumbers(self, root: TreeNode) -> int:
         res = []
         def recur(root,path):
@@ -19,8 +33,12 @@ class Solution:
         
             return
         
-        recur(root,"")
-        res = [int(x) for x in res]
-        res = sum(res)
+        #recur(root,"")
+        #res = [int(x) for x in res]
+        #res = sum(res)
+        #return res
         
-        return res
+        self.res = 0
+        self.dfs(root,"")
+        return self.res
+        
