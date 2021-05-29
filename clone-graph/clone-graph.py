@@ -12,6 +12,43 @@ class GraphNode:
         self.next = next
 
 class Solution:
+    def cloneGraphTwo(self,node):
+        
+        hashMap = {}
+        graph = Node(node.val)
+        hashMap[node.val] = graph
+        sourceSet = set()
+        queue = []
+        qeueUtil = []
+        visited = set()
+        visited.add(node.val)
+        queue.append(node)
+        def addEdge(graph,neighbor):
+            """list_ = [neighbor]
+            list_ = graph.neighbors + list_
+            graph.neighbors = list_
+            """
+            graph.neighbors.append(neighbor)
+            
+        while queue:
+            graphNode = queue.pop(0)
+            #print(graphNode.val)
+            for neighbour in graphNode.neighbors:
+                if neighbour.val not in visited:
+                    queue.append(neighbour)
+                    node_ = Node(neighbour.val)
+                    hashMap[neighbour.val] = node_
+                    visited.add(neighbour.val)
+                if (graphNode.val,neighbour.val) not in sourceSet:
+                    #print(sourceSet)
+                    sourceSet.add((graphNode.val,neighbour.val))
+                    addEdge(hashMap[graphNode.val],hashMap[neighbour.val])            
+        
+        return graph
+        
+        
+        
+        
     def cloneGraph(self, node: 'Node') -> 'Node':
         
         if node == None:
@@ -29,8 +66,8 @@ class Solution:
             
             return
         
-        print(node.val,node.neighbors)
-        graph = Node(node.val)
+        #print(node.val,node.neighbors)
+        """graph = Node(node.val)
         
         cloneHash = {}
         visitedSet = set()
@@ -58,6 +95,8 @@ class Solution:
                     sourceSet.add((tempNode.val,neighbor.val)) 
                     addEdge(cloneHash[tempNode.val],cloneHash[neighbor.val])
                 #print((tempNode.val,neighbor.val),sourceSet)
+        """
         
+        #return graph
         
-        return graph
+        return self.cloneGraphTwo(node)
