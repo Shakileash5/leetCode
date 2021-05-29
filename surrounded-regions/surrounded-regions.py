@@ -1,4 +1,52 @@
 class Solution:
+    def solveTwo(self,board):
+        visited = set()
+        sizeR = len(board)
+        sizeC = len(board[0])
+        markArr = set()
+        flag = [False]
+        res = []
+        
+        def isBorder(i,j):
+            if i == 0 or j == 0 or i == sizeR-1 or j == sizeC-1:
+                return True
+            return False
+        
+        def moveCoords(i,j):
+            visited.add((i,j))
+            markSet.add((i,j))
+            if isBorder(i,j):
+                flag[0] = True
+            if 0<=(i+1)<sizeR and 0<=j<sizeC:
+                if (i+1,j) not in visited and board[i+1][j] == 'O':
+                    moveCoords(i+1,j)
+            if 0<=(i-1)<sizeR and 0<=j<sizeC:
+                if (i-1,j) not in visited and board[i-1][j] == 'O':
+                    moveCoords(i-1,j)
+            if 0<=(i)<sizeR and 0<=(j+1)<sizeC:
+                if (i,j+1) not in visited and board[i][j+1] == 'O':
+                    moveCoords(i,j+1)
+            if 0<=(i)<sizeR and 0<=(j-1)<sizeC:
+                if (i,j-1) not in visited and board[i][j-1] == 'O':
+                    moveCoords(i,j-1)
+            return
+        
+        for i in range(sizeR):
+            for j in range(sizeC):
+                if (i,j) not in visited and board[i][j] == "O":
+                    markSet = set()
+                    flag = [False]
+                    moveCoords(i,j)
+                    if flag[0] == False:
+                        for val in markSet:
+                            markArr.add(val)
+                    #print(visited,markSet,flag)
+        #print("fe",markArr)
+        for (i,j) in markArr:
+            board[i][j] = 'X'
+        return []
+        
+        
     def solve(self, board: List[List[str]]) -> None:
         """
         Do not return anything, modify board in-place instead.
@@ -49,13 +97,8 @@ class Solution:
             
             return
         
-        m = len(board)
+        """m = len(board)
         n = len(board[0])
-        
-        #exploreConnections(1,1,m,n)
-        #print(connectedList,borderFlag)
-        #convertToX(connectedList)
-        #print(board)
         
         for i in range(m):
             for j in range(n):
@@ -68,9 +111,9 @@ class Solution:
                         if borderFlag[0] == 1:
                             addVisited(connectedList)
                         else:
-                            convertToX(connectedList)
-        #print(board)
-        return                    
+                            convertToX(connectedList)"""
+        self.solveTwo(board)
+        return              
                     
                     
             
