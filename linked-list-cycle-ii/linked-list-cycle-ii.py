@@ -5,11 +5,34 @@
 #         self.next = None
 
 class Solution:
+    def getPosition(self,head):
+        tempHead = head
+        count = 0
+        visited = set()
+        slow = head
+        fast = head
+        while slow and fast:
+            if slow in visited:
+                return slow
+            visited.add(slow)
+            slow = slow.next
+            if fast.next:
+                fast = fast.next.next
+            else:
+                return None
+            
+            
+        
+        
+            
+            
+        
+        
     def detectCycle(self, head: ListNode) -> ListNode:
         fastPointer = head
         slowPointer = head
         visitedSet = set()
-        
+        """
         while(slowPointer!=None and fastPointer!=None):
             
             if slowPointer in visitedSet:
@@ -21,9 +44,5 @@ class Solution:
             if fastPointer.next == None:
                 return None
             fastPointer = fastPointer.next.next
-            
-            if slowPointer == fastPointer:
-                #print(slowPointer.val)
-                flag = 1
-                #return True
-        return None
+            """
+        return self.getPosition(head)
