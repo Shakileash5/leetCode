@@ -4,32 +4,46 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def removeElements(self, head: ListNode, val: int) -> ListNode:
+    def removeElementsTwo(self,head,val):
         headTemp = head
         prev = None
-        while(head!=None):
-            flag = 0
+        
+        while head:
             if head.val == val:
-                #print(prev,head)
-                flag = 1
-                while(head.val == val):
+                if prev == None:
+                    headTemp = head.next
+                else:
+                    prev.next = head.next
+                head = head.next
+            else:
+                prev = head
+                head = head.next
+        return headTemp
+        
+    
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        def solutionOne():
+            headTemp = head
+            prev = None
+            while(head!=None):
+                flag = 0
+                if head.val == val:
+                    flag = 1
                     if head.next is not None:
-                        #prev = head
                         head.val = head.next.val
                         head.next = head.next.next
                     else:
-                        #print("here",head)
                         if prev == None:
                             headTemp = None
                             head = None
-                            #print("here2",headTemp,head)
-                            break
                         else:
                             prev.next = None
                             head = None
-                            break
-            if flag == 0:
-                prev = head
-                head = head.next
-        
-        return headTemp
+                        break
+
+                if flag == 0:
+                    prev = head
+                    head = head.next
+
+            return headTemp
+        return self.removeElementsTwo(head,val)
