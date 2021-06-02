@@ -1,25 +1,23 @@
 class Solution:
     def getFolderNames(self, names: List[str]) -> List[str]:
-        hashMap = {}
-        res = []
-    
-        for name in names:
-            
-            if name not in hashMap:
-                hashMap[name] = 1
-                res.append(name)
-            else:
-                val = str(hashMap[name])
-                nameChange = name + '('+val+')'
-                #print(hashMap)
-                val = int(val)
-                while nameChange in hashMap:
-                    val+=1
-                    nameChange = name + '('+str(val)+')'
-                
-                hashMap[name]+=abs(hashMap[name]-val)
-                hashMap[nameChange] = 1
-                #print(hashMap)
-                res.append(nameChange)
+        res = {}
+        ans = []
+        fileCount = 0
         
-        return res
+        for key in names:
+            if key not in res:
+                    ans.append(key)
+                    res[key] = 1
+            else:
+                fileCount = res[key]
+                while fileCount:
+                    str_ = key + "(" + str(fileCount) + ")"
+                    if str_ not in res:
+                        ans.append(str_)
+                        res[str_] = 1
+                        fileCount += 1
+                        break
+                    fileCount += 1
+                res[key] = fileCount
+        
+        return ans           
