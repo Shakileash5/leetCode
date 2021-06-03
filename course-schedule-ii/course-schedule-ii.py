@@ -1,69 +1,76 @@
-from collections import defaultdict
-
 class Graph:
-    def __init__(self,vertices):
-        self.graphNodes = defaultdict(list)
+    def __init__(self,vertices=0):
+        self.nodes = {}
         self.vertices = vertices
     
-    def addEdge(self,source,destination):
-        self.graphNodes[source].append(destination)
+    def addEdge(self,src,dest):
+        if src not in self.nodes:
+            self.nodes[src] = [dest]
+        else:
+            self.nodes[src].append(dest)
     
-    def recur(self,node,visited,stack):
-         
-        visited.add(node)
-        
-        for neighbours in self.graphNodes[node]:
-                if neighbours not in visited:
-                    self.recur(neighbours,visited,stack)
-        
-        stack.append(node)
-            
-    
-    def topologicalSort(self):
-        visited = set()
-        stack = []
-        for i in range(self.vertices):
-            if i not in visited:
-                self.recur(i,visited,stack)
-        
-        print(stack,"here")
-        return stack
-    
-    def cylicDetectionUtil(self,node,visited,recursionStack):
-        if node not in self.graphNodes:
+    def cycleUtil(self,node,visited,recurSet):
+        if node not in self.nodes:
             return True
         if node in visited:
             return True
-        if node in recursionStack:
+        if node in recurSet:
             return False
         
-        recursionStack.add(node)
-        for i in self.graphNodes[node]:
-            if self.cylicDetectionUtil(i,visited,recursionStack) == False:
+        recurSet.add(node)
+        for vertex in self.nodes[node]:
+            if self.cycleUtil(vertex,visited,recurSet) == False:
                 return False
         visited.add(node)
-    
-    def cylicDetection(self):
-        visited = set()
-        for i in range(self.vertices):
-            recursionStack = set()
-            if i not in visited:
-                if self.cylicDetectionUtil(i,visited,recursionStack) == False:
-                    return False
         return True
-        
+    
+    def isCycle(self):
+        visited = set()
+        for node in self.nodes:
+            recurSet = set()
+            if self.cycleUtil(node,visited,recurSet) == False:
+                return True
+        return False
+    
+    def topologyUtil(self,node,visited,stack):
+        if node in visited:
+            return
+        visited.add(node)
+        if node in self.nodes:
+            for vertex in self.nodes[node]:
+                if vertex not in visited:
+                    self.topologyUtil(vertex,visited,stack)
+        stack.append(node)
+        return
+    
+    def topologySort(self):
+        visited = set()
+        stack = []
+        for node in self.nodes:
+            if node not in visited:
+                self.topologyUtil(node,visited,stack)
+        #print(stack)
+        if stack:
+            return stack
+        return stack
+            
+            
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         
-        graph = Graph(numCourses)
+        graphObj = Graph(numCourses)
         
-        for i in prerequisites:
-            graph.addEdge(i[0],i[1])
-        
-        print(graph.graphNodes)
-        if graph.cylicDetection() == False:
+        for val in prerequisites:
+            graphObj.addEdge(val[0],val[1])
+        for i in range(numCourses):
+            if i not in graphObj.nodes:
+                graphObj.nodes[i] = []
+        if graphObj.isCycle():
             return []
         
-        res = graph.topologicalSort()
+        return graphObj.topologySort()
+            
+            
+            
+            
         
-        return res
