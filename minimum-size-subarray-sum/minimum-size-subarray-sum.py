@@ -1,8 +1,44 @@
 class Solution:
-    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+    def solutionTwo(self,nums,target):
         
-        start = -1
-        end = -1
+        size = len(nums)
+        start = 0
+        end = 0
+        minSoFar = size+1
+        
+        while(start<size):
+                tempArr = []
+                tempSum = -1
+                while end<size:
+                    tempArr = nums[start:end+1]
+                    tempSum = sum(tempArr)
+                    if tempSum>=target:
+                        break
+                    end+=1
+                #print("temp",tempArr,tempSum,"poi",start,end)
+                while start<=end:
+                    if tempSum>=target:
+                        minSoFar = min(minSoFar,len(tempArr))
+                    else:
+                        break
+                    if tempSum>target:
+                        if nums[start]<nums[end]:
+                            start+=1
+                        else:
+                            end-=1
+                    else:
+                        break
+                    tempArr = nums[start:end+1]
+                    tempSum = sum(tempArr)
+                    #print(start,end)
+                start+=1
+        if minSoFar==(size+1):
+              minSoFar = 0
+        return minSoFar
+                    
+        
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+
         size = len(nums)
         minSoFar = size+1
         
@@ -67,10 +103,8 @@ class Solution:
         #minSoFar = naiveSolution(minSoFar)
         #print(minSoFar) 
         #minSoFar = twoPointer(minSoFar)
-        minSoFar = towPointerOpt(minSoFar,0,0,target)
-        print(minSoFar) 
-        
-        if minSoFar==(size+1):
-            minSoFar = 0
-        
-        return minSoFar
+        #minSoFar = towPointerOpt(minSoFar,0,0,target)
+        #if minSoFar==(size+1):
+        #    minSoFar = 0
+        #return minSoFar
+        return self.solutionTwo(nums,target)
