@@ -5,6 +5,21 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def invertTreeTwo(self,leftSubtree,rightSubtree,root):
+        if root == None:
+            return
+        if leftSubtree==None and rightSubtree==None:
+            return None
+        root.left = rightSubtree
+        root.right = leftSubtree
+        if leftSubtree:
+            self.invertTreeTwo(leftSubtree.left,leftSubtree.right,leftSubtree)
+        if rightSubtree:
+            self.invertTreeTwo(rightSubtree.left,rightSubtree.right,rightSubtree)
+        
+        return
+        
+    
     def invertTree(self, root: TreeNode) -> TreeNode:
         
         if root == None:
@@ -29,7 +44,8 @@ class Solution:
             
             return
         
-        recur(leftSubtree,rightSubtree,root)
+        #recur(leftSubtree,rightSubtree,root)
         #print(leftSubtree)
+        self.invertTreeTwo(leftSubtree,rightSubtree,root)
         return root
         
