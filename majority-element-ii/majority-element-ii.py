@@ -1,18 +1,19 @@
 class Solution:
     def majorityElement(self, nums: List[int]) -> List[int]:
-        rejected = {}
+        hashMap = {}
+        res = set()
+        threshold = len(nums)//3
         
-        size = len(nums)
-        res = []
-        threshold = size//3
-        
-        for i in nums:
-            if i not in rejected.keys():
-                count = nums.count(i)
-                if count>threshold:
-                    res.append(i)
-                    #res.pop()
-                rejected[i] = True
+        for val in nums:
+            count = 0
+            if val not in hashMap:
+                hashMap[val] = 1
+                count = 1
+            else:
+                hashMap[val] += 1
+                count = hashMap[val]
+            if count>threshold:
+                res.add(val)
         
         return res
-        
+            
