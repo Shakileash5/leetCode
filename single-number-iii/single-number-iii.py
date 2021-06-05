@@ -1,14 +1,17 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> List[int]:
         hashMap = {}
-        twoElements = set()
+        res = []
+        size = len(nums)
         
-        for i in nums:
-            if i not in hashMap:
-                twoElements.add(i)
-                hashMap[i] = 1
+        for i in range(size):
+            if nums[i] not in hashMap:
+                hashMap[nums[i]] = 1
             else:
-                twoElements.remove(i)
-                hashMap[i]+=1
+                hashMap[nums[i]] += 1
         
-        return list(twoElements)
+        for key,val in hashMap.items():
+            if val == 1:
+                res.append(key)
+        
+        return res
