@@ -5,6 +5,23 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def binaryTreePathsTwo(self,root):
+        path = []
+        
+        def recur(root,tempPath):
+            if root == None:
+                return
+            recur(root.left,tempPath+str(root.val)+"->")
+            if root.left == None and root.right == None:
+                path.append(tempPath+str(root.val))
+            recur(root.right,tempPath+str(root.val)+"->")
+            
+            return
+        
+        recur(root,"")
+        return path
+            
+    
     def binaryTreePaths(self, root: TreeNode) -> List[str]:
         
         path = []
@@ -31,6 +48,6 @@ class Solution:
             
             return
         
-        inorder(root,"")
-        
-        return path
+        #inorder(root,"")
+        #return path
+        return self.binaryTreePathsTwo(root)
