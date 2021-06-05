@@ -1,27 +1,22 @@
 class Solution:
     def diffWaysToCompute(self, expression: str) -> List[int]:
         size = len(expression)
-        operands = set(["+","-","*"])
-
-        def divideAndConquere(string):
+        isOperand = lambda x : x in ["+","-","*","/"]
+        
+        def recur(string):
             if ("+" not in string and "-" not in string and "*" not in string):
-                return [int(string)]
-            
-            sizeStr = len(string)
-            res = []   
-            #print(string,sizeStr)
-            for i in range(sizeStr):
-                if (string[i] in operands):
-                    #print("in")
-                    left = divideAndConquere(string[:i])
-                    right = divideAndConquere(string[i+1:])
-                    #print(left,right)
+                return [int(string)] 
+            res = []
+            for i in range(len(string)):
+                if isOperand(string[i]):
+                    left = recur(string[:i])
+                    right = recur(string[i+1:])
                     for l in left:
                         for r in right:
-                            print(str(l)+str(i)+str(r))
-                            res.append(eval(str(l)+str(string[i])+str(r)))
-                            #print(res)
+                            #print(left,string[i],right)
+                            res.append(eval(str(l)+string[i]+str(r)))
+                    
             return res
         
-        return divideAndConquere(expression)
-                    
+        return recur(expression)
+        
