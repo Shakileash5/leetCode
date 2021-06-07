@@ -4,16 +4,12 @@ class Solution:
         hashMap = {}
         size = len(citations)
         
-        if size == 1:
-            if citations[0]>=1:
-                return 1
-            return 0
         
         for i in range(size):
             hashMap[i] = citations[i]
         
-        print(hashMap)
-        for i in range(1,size+1):
+        #print(hashMap)
+        """for i in range(1,size+1):
             for item in hashMap:
                 if hashMap[item]>=i:
                     tempIdx = size - item
@@ -23,5 +19,17 @@ class Solution:
                     if tempIdx == i:
                         print(i)
                         print(tempIdx,i,item)
-                        return i
-        return 0
+                        return i"""
+        left = 0
+        right = size 
+        
+        while(left<right):
+            mid = (left+right) // 2
+            
+            if citations[mid] >= size - mid:
+                right = mid
+            else:
+                left = mid + 1
+            
+        
+        return size - left
