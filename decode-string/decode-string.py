@@ -1,50 +1,34 @@
 class Solution:
     def decodeString(self, s: str) -> str:
-        stack = []
-        res = ""
-        s = '1['+s+']'
         size = len(s)
-        i = 0
-        while(i<size):
-            strTil = i
-            subStr = ""
-            if s[i].isalpha():
-                while(s[strTil].isalpha()):
-                    subStr+=s[strTil]
-                    strTil+=1
-                stack.append(subStr)
-            
-            i = strTil
-            
-            numTil = i
-            num = ""
-            if s[i].isnumeric():
-                while(s[numTil].isnumeric()):
-                    num+=s[numTil]
-                    numTil+=1
-                #if numTil!=i:
-                stack.append(int(num))
-            
-            i = numTil
-            
-            if s[i] == '[':
-                stack.append('[')
-                i+=1
-            if s[i] == ']':
-                idx = i
-                res = []
-                while(stack[-1]!='['):
-                    res.append(stack.pop())
-                res = "".join(res[::-1])
+        stack = []
+        idx = 0 
+        res = ''
+        
+        while idx<size:
+            if s[idx].isnumeric():
+                strInt = ''
+                while s[idx] != '[':
+                    strInt = strInt + s[idx]
+                    idx += 1
+                stack.append(int(strInt))
+                continue
+            elif s[idx] == '[':
+                stack.append(s[idx])
+            elif s[idx] == ']':
+                #print(stack,"here")
+                str_ = ''
+                while(stack!=[] and stack[-1]!='['):
+                    str_ = stack.pop() + str_ 
+                #print(str_)
                 stack.pop()
-                stack.append(stack.pop()*res)
-                #print(stack)
-                i+=1
-            
-        #print(stack)
-        return stack[-1]
-                        
-                        
-                        
-                    
-                    
+                val = stack.pop()
+                stack.append(val*str_)
+            else:
+                if stack == [] or stack[-1]=='[':
+                    stack.append(s[idx])
+                else:
+                    stack[-1] += s[idx] 
+            #print(stack)
+            idx += 1 
+        return ''.join(stack)
