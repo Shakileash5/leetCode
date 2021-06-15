@@ -1,5 +1,25 @@
 import random
 class Solution:
+    def binaryWithCostTwo(self,n):
+        memo = [[None for i in range(n+1)] for j in range(n+1)]
+        def recur(left,right):
+            if right - left == 1:
+                return left
+            if right == left:
+                return 0
+            if memo[left][right] == None:
+                min_ = float('inf')
+                for i in range(left+1,right):
+                    val = i + max(recur(left,i-1),recur(i+1,right))
+                    min_ = min(min_,val)
+                memo[left][right] = min_
+                return min_
+            else:
+                return memo[left][right]
+                
+        
+        return recur(0,n)
+    
     def getMoneyAmount(self, n: int) -> int:
         
         self.amount = 0
@@ -47,5 +67,5 @@ class Solution:
             
             return min_
         
-        return payToGuess(0,n)
-            
+        #return payToGuess(0,n)
+        return self.binaryWithCostTwo(n)  
