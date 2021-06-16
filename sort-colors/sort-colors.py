@@ -3,23 +3,21 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        #nums.sort()
-        colors = [0,0,0]
         size = len(nums)
-        
-        for i in range(size):
-            if nums[i] == 0:
-                colors[0]+=1
-            if nums[i] == 1:
-                colors[1]+=1
-            if nums[i] == 2:
-                colors[2]+=1
+        left = 0
+        right = size - 1
         idx = 0
-        for i in range(3):
-            for j in range(colors[i]):
-                nums[idx] = i
-                idx+=1
-        #print(colors,nums)
-        return
-                
         
+        while(idx<=right):
+            if nums[idx] == 0:
+                nums[idx],nums[left] = nums[left],nums[idx]
+                left += 1
+                idx += 1
+            elif nums[idx] == 1:
+                idx += 1
+            else:
+                nums[idx],nums[right] = nums[right],nums[idx]
+                right -= 1
+                #idx += 1
+        
+        return
