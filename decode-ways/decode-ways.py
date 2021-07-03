@@ -2,11 +2,11 @@ class Solution:
     
     def recur(self,idx,s):
         if idx>=len(s):
-            #print("here")
             return 1
         
         way2 = 0
         way1 = 0
+        
         if self.dp[idx] == None:
             if s[idx] != '0':
                 way1 = self.recur(idx+1,s)
@@ -17,6 +17,23 @@ class Solution:
         else:
             return self.dp[idx]
     
+    def decodeStr(self,idx,s,dp):
+        if idx>=len(s):
+            return 1
+        
+        if dp[idx] == None:
+            if s[idx] != '0':
+                cutNext = 0
+                cutEach = self.decodeStr(idx+1,s,dp)
+                if idx+1<len(s) and int(s[idx:idx+2]) <=26:
+                    cutNext = self.decodeStr(idx+2,s,dp)
+                dp[idx] = cutNext + cutEach 
+                return dp[idx]
+            dp[idx] = 0
+            return 0
+        else:
+            return dp[idx]
+        
     
     def numDecodings(self, s: str) -> int:
         
@@ -42,6 +59,6 @@ class Solution:
         #res = recur(s,0,dp)
         #return res
         self.dp = [None]*len(s)
-        return self.recur(0,s)
-            
+        #return self.recur(0,s)
+        return self.decodeStr(0,s,dp)    
         
