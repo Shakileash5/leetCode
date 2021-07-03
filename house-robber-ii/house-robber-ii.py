@@ -11,6 +11,23 @@ class Solution:
             return dp[idx]
         else:
             return dp[idx]
+    def robSolver(self,nums):
+        size = len(nums)
+        dp = [None for i in range(size)]
+        @cache
+        def robHouse(idx,taken):
+            if taken and idx==size-1:
+                return 0
+            if idx >= size:
+                return 0
+            if idx == 0:
+                rob = robHouse(idx+2,1) + nums[idx]
+                dontRob = robHouse(idx+1,taken)
+            else:
+                rob = robHouse(idx+2,taken) + nums[idx]
+                dontRob = robHouse(idx+1,taken)
+            return max(rob,dontRob)
+        return robHouse(0,0)
     
     def solver(self,nums):
             
@@ -37,4 +54,5 @@ class Solution:
         
         #print(rob1StHouse,dontRob1stHouse)
         #return max(rob1StHouse,dontRob1stHouse)
-        return max(self.solver(nums[:-1]), self.solver(nums[1:])) 
+        #return max(self.solver(nums[:-1]), self.solver(nums[1:])) 
+        return self.robSolver(nums)
