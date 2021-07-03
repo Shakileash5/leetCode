@@ -37,12 +37,27 @@ class Solution:
                 return max(priceSoldNow,priceWaited)
             
         
-            
-        
+        def recur3(idx,item,bought):
+            if idx>=size:
+                return 0
+            if (idx,item,bought) not in dp:
+                if bought == 0:
+                    buyNow = recur3(idx+1,prices[idx],1)
+                    dontBuy = recur3(idx+1,item,bought)
+                    dp[(idx,item,bought)] = max(buyNow,dontBuy)
+                    return dp[(idx,item,bought)]
+                else:
+                    sellNow = recur3(idx+2,None,0) + prices[idx] - item
+                    dontSell = recur3(idx+1,item,bought)
+                    dp[(idx,item,bought)] = max(sellNow,dontSell)
+                    return dp[(idx,item,bought)]
+            else:
+                return dp[(idx,item,bought)]
         #recur(0,0,0,0)
         
         #print(max(dp))
         #print(maxPrice)
         
-        return recur2(0,0,0)
-        
+        #return recur2(0,0,0)
+        dp = {}
+        return recur3(0,None,0)
