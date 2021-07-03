@@ -32,5 +32,30 @@ class Solution:
             return dp[-1] if dp[-1] < inf else -1
         
         #print(resCount,res,amountTemp)
-        return dpSol(size,amount)  
         
+        def recur(idx,amount,memo):
+            if idx>=size:
+                print(amount)
+                if ammount == 0:
+                    return 0
+                return float('inf')
+            if amount == 0:
+                return 0
+            
+            if (idx,amount) not in memo:
+                minCoin = float('inf')
+                for i in range(idx,size):
+                    #print("here",i,amount)
+                    if (amount - coins[i])>=0:
+                        #print("inside")
+                        res = recur(i,amount - coins[i],memo) + 1
+                        #print(amount,idx,res)
+                        minCoin = min(minCoin,res)
+                memo[(idx,amount)] = minCoin
+                return memo[(idx,amount)]
+            else:
+                return memo[(idx,amount)]
+        #return dpSol(size,amount)
+        memo = {}
+        res  = recur(0,amount,memo)
+        return -1 if res >= float('inf') else res
