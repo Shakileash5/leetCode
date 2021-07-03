@@ -5,16 +5,14 @@ class Solution:
         
         def robber(idx):
             if idx>=size:
-                #print(temp)
                 return 0
             
             if dp[idx] == None:
-                robHouse = robber(idx+2)+nums[idx]
                 dontRob = robber(idx+1)
-                dp[idx] = max(robHouse,dontRob)  
+                rob = robber(idx+2) + nums[idx]
+                dp[idx] = max(dontRob,rob)
                 return dp[idx]
             else:
-                #print("hit")
                 return dp[idx]
         
         return robber(0)
