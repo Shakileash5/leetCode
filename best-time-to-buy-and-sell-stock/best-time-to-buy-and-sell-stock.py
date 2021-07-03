@@ -43,5 +43,14 @@ class Solution:
                 maxProfit = max(maxProfit,tempProfit)
             return maxProfit
         
-        return self.localMaxMin(prices)
-        
+        size = len(prices)
+        min_ = prices[0]
+        max_ =  0
+        for i in range(1,size):
+            if min_> prices[i]:
+                min_ = prices[i]
+            elif max_<(prices[i]-min_):
+                max_ = prices[i] - min_
+        #print(max_)
+        #return self.localMaxMin(prices)
+        return max_
