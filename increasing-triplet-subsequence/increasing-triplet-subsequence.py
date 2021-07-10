@@ -22,7 +22,16 @@ class Solution:
                 left = i
             if min1<min2<val and left<i:
                 return True
+        stack = []
+        for i in range(size-1,-1,-1):
             
+            while stack and stack[-1]<=nums[i]:
+                stack.pop()
+                
+            stack.append(nums[i])
+            if len(stack)>2:
+                return True
+
         return False
                 
                         
