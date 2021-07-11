@@ -1,29 +1,9 @@
 class Solution:
     def lengthLongestPath(self, input: str) -> int:
         size = len(input)
-        stack = []
         max_ = 0
-        file = ''
-        
-        def dfs(idx,str_,level):
-            flag = 0
-            subStr = ''
-            while(idx<size and input[idx]!='\\'):
-                if input[idx] == '.':
-                    flag = 1
-                subStr+=input[idx]
-                idx += 1
-            
-            if flag == 1:
-                max_ = max(max_,len(str_+subStr))
-                return
-            else:
-                subStr += '\\'
-            return
         lines = input.split('\n')
-        #print(lines)
         dirs = []
-        files = []
         
         for line in lines:
             tabCount = line.count('\t')
