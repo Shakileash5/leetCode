@@ -10,25 +10,25 @@ class ZeroEvenOdd:
         
 	# printNumber(x) outputs "x", where x is an integer.
     def zero(self, printNumber: 'Callable[[int], None]') -> None:
-        for i in range(self.n): 
+        for i in range(1,self.n+1):
             self.lockZero.acquire()
             printNumber(0)
             if i%2 == 0:
-                self.lockOdd.release()
-            else:
                 self.lockEven.release()
-        
+            else:
+                self.lockOdd.release()
         
     def even(self, printNumber: 'Callable[[int], None]') -> None:
-        for i in range(2,self.n+1,2):
-            self.lockEven.acquire()
-            printNumber(i)
-            self.lockZero.release()
-        
+        for i in range(1,self.n+1):
+            if i%2 == 0:
+                self.lockEven.acquire()
+                printNumber(i)
+                self.lockZero.release()
         
     def odd(self, printNumber: 'Callable[[int], None]') -> None:
-        for i in range(1,self.n+1,2):
-            self.lockOdd.acquire()
-            printNumber(i)
-            self.lockZero.release()
+        for i in range(1,self.n+1):
+            if i%2 == 1:
+                self.lockOdd.acquire()
+                printNumber(i)
+                self.lockZero.release()
         
