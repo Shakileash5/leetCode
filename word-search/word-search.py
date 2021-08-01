@@ -3,29 +3,26 @@ class Solution:
         sizeRow = len(board)
         sizeCol = len(board[0])
         size = len(word)
-        visited = set()
         
-        def backtrack(idx,idxR,idxC):
+        def searchWord(idxR,idxC,idx,visited):
             if idx>=size:
                 return True
+            
             visited.add((idxR,idxC))
-            #print(idxR,idxC,idx)
-            for i,j in [(0,1),(1,0),(-1,0),(0,-1)]:
-                x = i+idxR
-                y = j+idxC
-                if 0<=x<sizeRow and 0<=y<sizeCol and (x,y) not in visited:
-                    #print(x,y)
-                    if word[idx] == board[x][y]:
-                        if backtrack(idx+1,x,y):
+            for x,y in [(idxR+1,idxC),(idxR,idxC+1),(idxR-1,idxC),(idxR,idxC-1)]:
+                if 0<=x<sizeRow and 0<=y<sizeCol:
+                    if board[x][y] == word[idx] and (x,y) not in visited:
+                        if searchWord(x,y,idx+1,visited):
                             return True
             visited.remove((idxR,idxC))
             return False
         
+        #print(searchWord(0,0,1,set()))
         for i in range(sizeRow):
             for j in range(sizeCol):
                 if board[i][j] == word[0]:
                     visited = set()
-                    if backtrack(1,i,j):
+                    if searchWord(i,j,1,visited):
                         return True
-        return False
         
+        return False
