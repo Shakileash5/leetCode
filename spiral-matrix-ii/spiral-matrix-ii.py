@@ -1,42 +1,21 @@
 class Solution:
     def generateMatrix(self, n: int) -> List[List[int]]:
-        number = n*n
-        count = 0
-        i,j = 0,0
-        iteration=0
-        res = [[0 for j in range(n)] for i in range(n)]
-        #print(res)
         
-        while count<number:
+        dirs = [(0,1),(1,0),(0,-1),(-1,0)]
+        id_ = 0
+        
+        matrix = [[0 for i in range(n)] for j in range(n)]
+        idxR = 0
+        idxC = 0
+        
+        for i in range(1,n*n+1):
+            matrix[idxR][idxC] = i
+            x,y = idxR+dirs[id_][0],idxC+dirs[id_][1]
             
-            for k in range(j,n-iteration):
-                #print("1st",k,count)
-                j = k
-                res[i][j] = count+1;
-                count+=1
-            #print(res)
-            for k in range(i+1,n-iteration):
-                i = k
-                res[i][j] = count+1
-                count+=1
-            #print(res)
-            for k in range(j-1,-1 + iteration,-1):
-                j = k
-                res[i][j] = count+1
-                count+=1
-            #print(res)
-            for k in range(i-1,-1+1+iteration,-1):
-                i = k
-                res[i][j] = count+1
-                count+=1
-            #print(res)
-            iteration+=1
-            j=j+1
-            #print("atlast")
-        return res
-                
+            if 0<=x<n and 0<=y<n and matrix[x][y] == 0:
+                idxR,idxC = x,y
+            else:
+                id_ = (id_+1)%4
+                idxR,idxC = idxR+dirs[id_][0],idxC+dirs[id_][1]
         
-        
-                
-            
-        
+        return matrix
