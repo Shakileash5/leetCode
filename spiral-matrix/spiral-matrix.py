@@ -1,39 +1,25 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        rowSize = len(matrix)
-        colSize = len(matrix[0])
+        sizeRow = len(matrix)
+        sizeCol = len(matrix[0])
         res = []
-        iterations = (rowSize+colSize)//2
         
-        for i in range(iterations):
-            row = i
-            flag = 0
-            for col in range(i,colSize-i):
-                res.append(matrix[row][col])
-                flag = 1
-            if flag == 0:
-                break
-            #print(res,"1")
-            flag = 0
-            for row in range(row+1,rowSize-i):
-                res.append(matrix[row][col])
-                flag = 1
-            if flag == 0:
-                break
-            #print(res,"2")
-            flag = 0
-            for col in range(col-1,i-1,-1):
-                res.append(matrix[row][col])
-                flag = 1
-            if flag == 0:
-                break
-            #print(res,"3")
-            flag = 0
-            for row in range(row-1,i,-1):
-                res.append(matrix[row][col])
-                flag = 1
-            if flag == 0:
-                break
-            #print(res,'4')
+        dirs = [(0,1),(1,0),(0,-1),(-1,0)]
+        seen = [[False for j in range(sizeCol)] for i in range(sizeRow)]
+        
+        id_ = 0
+        idxR,idxC = 0,0
+        
+        for i in range(sizeRow*sizeCol):
+            res.append(matrix[idxR][idxC])
+            seen[idxR][idxC] = True
+            x,y = idxR+dirs[id_][0],idxC+dirs[id_][1]
             
+            if 0<=x<sizeRow and 0<=y<sizeCol and seen[x][y]==False:
+                idxR,idxC = x,y
+            else:
+                id_ = (id_+1)%4
+                idxR,idxC = idxR+dirs[id_][0],idxC+dirs[id_][1]
+            #print(idxR,idxC)
         return res
+                
