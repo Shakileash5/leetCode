@@ -7,37 +7,36 @@
 class Solution:
     def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
         
-        def isSubTreeUtil(root1,root2):
-            if root1 == None or root2 == None:
-                if root1 == None and root2 == None:
-                    return True
+        def isSubRoot(root1,root2):
+            if root1 == None and root2 == None:
+                return True
+            if (root1==None and root2 ) or (root1 and root2==None ):
                 return False
             
-            if isSubTreeUtil(root1.left,root2.left) == False:
+            if isSubRoot(root1.left,root2.left)==False:
                 return False
             
             if root1.val != root2.val:
                 return False
             
-            if isSubTreeUtil(root1.right,root2.right) == False:
+            if isSubRoot(root1.right,root2.right)==False:
                 return False
             
             return True
         
-        def checkSubroot(root,subRoot):
+        def inorder(root,subRoot):
             if root == None:
-                return False
+                return 
             
-            if checkSubroot(root.left,subRoot):
+            if inorder(root.left,subRoot):
                 return True
             
-            if isSubTreeUtil(root,subRoot):
+            if root.val == subRoot.val:
+                if isSubRoot(root,subRoot):
+                    return True
+            if inorder(root.right,subRoot):
                 return True
-            
-            if checkSubroot(root.right,subRoot):
-                return True
-            
             return False
         
-        return checkSubroot(root,subRoot)
+        return inorder(root,subRoot)
             
