@@ -1,53 +1,22 @@
 class Solution:
-    def solutionTwo(self,height):
-        monotoneStack = []
-        maxRect = 0
-        size = len(height)
-        height.append(0)
-        for i in range(size+1):
-            count = 1
-            minVal = 10000
-            while monotoneStack and height[i]<height[monotoneStack[-1]]:
-                val = height[monotoneStack.pop()]
-                min_ = min(val,minVal)
-                if monotoneStack == []:
-                    count = i
-                else:
-                    count = i - monotoneStack[-1] -1
-                total = count*min_
-                maxRect = max(maxRect,total)
-                count+=1
-                
-            monotoneStack.append(i)
-        return maxRect
-                
-                
     def largestRectangleArea(self, heights: List[int]) -> int:
+        size = len(heights)
+        maxArea = 0
         
-        def solOne():
-            monoStack = []
-            maxRect = 0
-            size = len(heights)
-            heights.append(0)
-            for i in range(size+1):
-                count = 1
-                minVal = 100000
-                print("gr",heights)
-                while monoStack and heights[i]<heights[monoStack[-1]]:
-                    val = heights[monoStack.pop()]
-                    minVal = min(val,minVal)
-                    if monoStack == []:
-                        count = i
-                    else:
-                        count = i - monoStack[-1]-1
-                    #print(val,count*val,count)
-                    maxRect = max(count*minVal,maxRect)
-                    #print(monoStack,"mono",minVal,count,count*minVal)
-                    count+=1
-                monoStack.append(i)
-                #print(monoStack,"out")
-                #print("\n")
-                return maxRect
+        stack = []
+        heights.append(0)
+        for i in range(size+1):
+            min_ = 100000
+            while stack and heights[stack[-1]]>heights[i]:
+                # Maintain monotonicity
+                val = heights[stack.pop()]
+                min_ = min(min_,val)
+                length = i
+                if stack != []:
+                    length = i - stack[-1] -1
+                maxArea = max(maxArea,min_*length)    
+            
+            stack.append(i)
         
-        return self.solutionTwo(heights)
-        
+        return maxArea
+            
