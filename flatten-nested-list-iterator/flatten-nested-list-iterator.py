@@ -21,25 +21,30 @@
 #        """
 
 class NestedIterator:
-    def recur(self,node):
-        for element in node:
-            if element.isInteger():
-                self.stack.append(element.getInteger())
-            else:
-                self.recur(element.getList())
     def __init__(self, nestedList: [NestedInteger]):
-        self.stack = []
-        self.recur(nestedList)
+        self.nums = []
+        self.size = 0
+        self.idx = 0
+        
+        def recur(list_):
+            for val in list_:
+                if val.isInteger():
+                    self.nums.append(val.getInteger())
+                else:
+                    recur(val.getList())
+            return
+        recur(nestedList)
+        self.size = len(self.nums)
     
     def next(self) -> int:
-        #print("fw",self.stack[-1][self.idxStack[-1]].getList())
-        val = self.stack.pop(0)
+        val = self.nums[self.idx]
+        self.idx += 1
         return val
+        
     
     def hasNext(self) -> bool:
-        if len(self.stack) == 0:
-                return False
-        return True
+        return True if self.idx<self.size else False
+         
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []
