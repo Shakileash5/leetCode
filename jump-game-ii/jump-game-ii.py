@@ -36,7 +36,7 @@ class Solution:
                 return 0
             
             if self.dp[idx] == None:
-                min_ = float('inf')
+                min_ = 10000
                 for i in range(nums[idx],0,-1):
                     min_ = min(min_,recur(idx+i)+1)
                 self.dp[idx] = min_
@@ -45,4 +45,19 @@ class Solution:
                 return self.dp[idx]
         
         #return self.recur(0,0)
-        return recur(0)
+        def bfs():
+            queue = [[0,0]]
+            visited = set()
+            
+            while(queue):
+                idx,level = queue.pop(0)
+                if idx == size-1:
+                    return level
+                for i in range(1,nums[idx]+1):
+                    if i+idx<=size and (i+idx) not in visited:
+                        visited.add(i+idx)
+                        queue.append([i+idx,level+1])
+            return -1
+        
+        #return recur(0)
+        return bfs()
