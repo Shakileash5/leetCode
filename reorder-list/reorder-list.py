@@ -8,27 +8,28 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        reverseList = []
-        headTemp = head
+        tempHead = head
+        self.headMove = head
+        size = [0]
         
-        while head!=None:
-            reverseList.append(head)
-            head = head.next
+        def recur(head,idx,prev):
+            if head == None:
+                size[0] = idx
+                return 
+            recur(head.next,idx+1,head)
+            if idx>(size[0]//2):
+                #print(self.headMove,head)
+                next_ = self.headMove.next
+                self.headMove.next = None
+                self.headMove.next = head
+                #print(self.headMove,head,next_)
+                prev.next = None
+                head.next = next_
+                self.headMove = self.headMove.next.next
+                #print(self.headMove,tempHead)
+            return
         
-        reverseList = reverseList[::-1]
-        
-        head = headTemp
-        
-        while head!=None:
-            
-            tempNext = head.next
-            if tempNext not in reverseList:
-                head.next = None
-                break
-            head.next = reverseList.pop(0)
-            head = head.next
-            head.next = tempNext
-            
-            head = head.next
-        return 
+        recur(head,0,None)
+        #print(tempHead)
+        return 1
             
