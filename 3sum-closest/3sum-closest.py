@@ -1,40 +1,43 @@
 class Solution:
     def threeSumClosest(self, nums: List[int], target: int) -> int:
-        
         size = len(nums)
-        if size < 3:
-            return res
-        nums.sort()
+        if size<3:
+            return -1
+        
         closest = 10000
         closestSum = 10000
+        nums.sort()
+        res = 0
+        #print(nums)
         for i in range(size):
-            if i>0 and nums[i] == nums[i-1]:
+            if i != 0 and nums[i]==nums[i-1]:
                 continue
-            left = i+1
-            right = size-1
-            diff = 10000
+            #print("Fea",i)
+            left = i + 1
+            right = size - 1
             while(left<right):
-                temp = [nums[i],nums[left],nums[right]]
-                sum_ = sum(temp)
-                diff = target - sum_
-                if closest>abs(diff):
-                    closestSum = sum_
-                    closest = abs(diff)
+                sum_ = nums[i]+nums[left]+nums[right]
+                
+                diff = abs(target-sum_)
+                #print(sum_,i,left,right,diff)
+                if diff<closest:
+                    closest = diff
+                    res = sum_
                 if sum_>target:
-                    right-=1
-                    while left<right and nums[right] == temp[2]:
-                        right-=1
+                    te = nums[right]
+                    right -= 1
+                    while(left<right and nums[right]==te):
+                        right -= 1
                 elif sum_<target:
-                    left+=1
-                    while left<right and nums[left] == temp[1]:
-                        left+=1
+                    te = nums[left]
+                    left += 1
+                    #print('feie')
+                    while(left<right and nums[left]==te):
+                        left += 1
                 else:
+                    #print("Vr")
                     return target
-                
+                #print("Fe",left,right)
+            #print("end")
+        return res
                     
-                
-        
-        
-        print(closest,closestSum,target)             
-        return closestSum
-      
