@@ -5,43 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def recur(self,root,k):
-        if root == None:
-            return False
-        left = self.recur(root.left,k)
-        if left  == True:
-            return True
-        if self.count == k:
-            self.val = root.val
-            return True
-        self.count+=1
-        right = self.recur(root.right,k)
-        if right == True:
-            return True
-        return False
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         
-    
-    def kthSmallest(self, root: TreeNode, k: int) -> int:
-        
+        count = [0]
         def inorder(root):
-            if root==None:
-                return 0
-            if inorder(root.left) == 1:
-                return 1
-            if inorder.count == k:
-                inorder.val = root.val
-                return 1
-            inorder.count+=1
-            if inorder(root.right) == 1:
-                return 1
+            if root == None:
+                return False
+            if inorder(root.left):
+                return True
+            count[0] += 1
+            if count[0] == k:
+                count[0] = root.val
+                return True
+            if inorder(root.right):
+                return True
+            
+            return False
         
-        #inorder.count = 1
-        #inorder.val = -1
-        #inorder(root)
-        #
-        #return inorder.val
-        self.count = 1
-        self.val = 0
-        self.recur(root,k)
-        return self.val
-        
+        inorder(root)
+        return count[0]
