@@ -5,26 +5,12 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def recurTwo(self,root):
-        if root == None:
-            return 0
-        height = max(self.recurTwo(root.left),self.recurTwo(root.right))+1
-        return height
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
         
-    def maxDepth(self, root: TreeNode) -> int:
-        maxDepth = [-1]
-        
-        def recur(root,maxLevel):
-            if root==None:
-                return 
-            recur(root.left,maxLevel+1)
-            if maxDepth[0]<maxLevel:
-                maxDepth[0] = maxLevel
-            recur(root.right,maxLevel+1)
+        def recur(root):
+            if root == None:
+                return 0
             
-            return
+            return max(recur(root.right),recur(root.left))+1
         
-        #recur(root,0)
-        #print(maxDepth[0])
-        #return maxDepth[0]+1
-        return self.recurTwo(root)
+        return recur(root)
