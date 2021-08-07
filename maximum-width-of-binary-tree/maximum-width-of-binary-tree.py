@@ -5,26 +5,26 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def widthOfBinaryTree(self, root: TreeNode) -> int:
+    def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        hashMap = {}
         
-        maxWidth = 1
-        queue = [(root,0)]
-        queueUtil = []
-        
-        while(queue):
-            node = queue.pop(0)
-            if node[0].left:
-                queueUtil.append((node[0].left,node[1]*2))
-            if node[0].right:
-                queueUtil.append((node[0].right,node[1]*2+1))
+        def dfs(root,level,nodeNum):
+            if root == None:
+                return
             
-            if queue == []:
-                if queueUtil:
-                    #print(queueUtil)
-                    #print(queueUtil[-1][1] - queueUtil[0][1] + 1)
-                    width = queueUtil[-1][1] - queueUtil[0][1] + 1
-                    maxWidth = max(maxWidth,width)
-                    queue = queueUtil[:]
-                queueUtil = []
+            dfs(root.left,level+1,nodeNum*2)
+            dfs(root.right,level+1,nodeNum*2+1)
+            if level not in hashMap:
+                hashMap[level] = [nodeNum]
+            else:
+                hashMap[level].append(nodeNum)
+            
+            return
+        dfs(root,1,0)
+        #print(hashMap)
+        maxWidth = 0
+        for key in hashMap:
+            maxWidth = max(maxWidth,hashMap[key][-1] - hashMap[key][0]+1)
         
         return maxWidth
+                
