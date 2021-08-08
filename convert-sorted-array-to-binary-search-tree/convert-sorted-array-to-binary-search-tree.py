@@ -5,39 +5,16 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    
-    def buildTree(self,arr,left,right):
-        if left>right:
-            return None
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
         
-        mid = (left+right)//2
-        node = TreeNode(arr[mid])
-        
-        if left == right:
-            return node
-        node.left = self.buildTree(arr,left,mid-1)
-        node.right = self.buildTree(arr,mid+1,right)
-        return node
-    
-    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        
-        
-        def buildTree(arr,left,right):
+        def dfs(left,right):
             if left>right:
                 return None
-            #size = len(arr[left:right+1])
+            
             mid = (left+right)//2
-            node = TreeNode(arr[mid])
-            
-            if left==right:
-                return node
-            
-            node.left = buildTree(arr,left,mid-1)
-            node.right = buildTree(arr,mid+1,right)
-            
+            node = TreeNode(nums[mid])
+            node.left = dfs(left,mid-1)
+            node.right = dfs(mid+1,right)
             return node
         
-        #tree = buildTree(nums,0,len(nums)-1)
-        #return tree
-        return self.buildTree(nums,0,len(nums)-1)
-        
+        return dfs(0,len(nums)-1)
