@@ -5,52 +5,28 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def structTreeTwo(self,preorder,inorder,left,right):
-        if left>right:
-            return None
-        node = TreeNode(preorder[self.preorderIdx[0]])
-        self.preorderIdx[0]+=1
-        if left == right:
-            return node
-        rootIdx = self.search(inorder,left,right,node.val)
-        node.left = self.structTreeTwo(preorder,inorder,left,rootIdx-1)
-        node.right = self.structTreeTwo(preorder,inorder,rootIdx+1,right)
-        return node
-    def search(self,inorder,left,right,target):
-        for i in range(left,right+1):
-            if inorder[i] == target:
-                return i
-        return -1
-    
-    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         
-        def structTree(preOrder,inOrder,left,right):
-            
+        preorderIdx = [0]
+        def buildTreeHelper(preorderIdx,left,right):
             if left>right:
                 return None
             
-            treeNode = TreeNode(preOrder[preOrderIdx[0]])
-            preOrderIdx[0]+=1
-            
+            node = TreeNode(preorder[preorderIdx[0]])
+            idx = search(preorder[preorderIdx[0]],left,right)
+            preorderIdx[0] += 1
             if left == right:
-                return treeNode
+                return node
             
-            rootIdx = search(inOrder,left,right,treeNode.val)
-            
-            treeNode.left = structTree(preOrder,inOrder,left,rootIdx-1)
-            treeNode.right = structTree(preOrder,inOrder,rootIdx+1,right)
-            
-            return treeNode
+            node.left = buildTreeHelper(preorderIdx,left,idx-1)
+            node.right = buildTreeHelper(preorderIdx,idx+1,right)
+            return node
         
-        def search(inOrder,left,right,target):
+        def search(target,left,right):
             for i in range(left,right+1):
-                if inOrder[i] == target:
+                if inorder[i] == target:
                     return i
-            return None
-        preOrderIdx = [0]
-        self.preorderIdx = [0]
-        #tree = structTree(preorder,inorder,0,len(inorder)-1)
-        #print(tree)
-        #return tree
-        return self.structTreeTwo(preorder,inorder,0,len(preorder)-1)
+            return -1
         
+        return buildTreeHelper(preorderIdx,0,len(preorder)-1)
+            
