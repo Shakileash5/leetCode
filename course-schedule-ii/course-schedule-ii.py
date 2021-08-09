@@ -1,76 +1,101 @@
 class Graph:
+    
     def __init__(self,vertices=0):
+        '''
+            This is an contructor , to initialize graph objects.
+        '''
         self.nodes = {}
         self.vertices = vertices
     
     def addEdge(self,src,dest):
+        '''
+            This function adds edge to the graph.
+        '''
         if src not in self.nodes:
             self.nodes[src] = [dest]
         else:
             self.nodes[src].append(dest)
-    
-    def cycleUtil(self,node,visited,recurSet):
-        if node not in self.nodes:
-            return True
-        if node in visited:
-            return True
-        if node in recurSet:
-            return False
         
-        recurSet.add(node)
-        for vertex in self.nodes[node]:
-            if self.cycleUtil(vertex,visited,recurSet) == False:
-                return False
-        visited.add(node)
-        return True
+        return
     
-    def isCycle(self):
-        visited = set()
-        for node in self.nodes:
-            recurSet = set()
-            if self.cycleUtil(node,visited,recurSet) == False:
+    def isCycleUtil(self,node,visited,stack):
+        '''
+            This function is an utility function of isCycle.
+        '''
+        
+        if node not in self.nodes:
+            return False
+        if node in visited:
+            return False
+        if node in stack:
+            return True
+        
+        stack.add(node)
+        for neighbour in self.nodes[node]:
+            if self.isCycleUtil(neighbour,visited,stack):
                 return True
+        
+        visited.add(node)
         return False
     
-    def topologyUtil(self,node,visited,stack):
-        if node in visited:
-            return
+    def isCycle(self):
+        '''
+            This function checks wheather the graph has cycle or not
+        '''
+        
+        visited = set()
+        
+        for key in self.nodes:
+            if key not in visited:
+                stack = set()
+                if self.isCycleUtil(key,visited,stack):
+                    return True
+        
+        return False
+    
+    
+    def toposortUtil(self,node,visited,stack):
+        
         visited.add(node)
         if node in self.nodes:
-            for vertex in self.nodes[node]:
-                if vertex not in visited:
-                    self.topologyUtil(vertex,visited,stack)
+            for neighbour in self.nodes[node]:
+                if neighbour not in visited:
+                    self.toposortUtil(neighbour,visited,stack)
+        
         stack.append(node)
         return
     
-    def topologySort(self):
+    def toposort(self):
+        '''
+            This function performs topological sort on the graph.
+        '''
         visited = set()
         stack = []
-        for node in self.nodes:
-            if node not in visited:
-                self.topologyUtil(node,visited,stack)
+        
+        for key in self.nodes:
+            if key not in visited:
+                self.toposortUtil(key,visited,stack)
+        
         #print(stack)
-        if stack:
-            return stack
         return stack
-            
-            
+
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         
         graphObj = Graph(numCourses)
+        res = []
         
-        for val in prerequisites:
-            graphObj.addEdge(val[0],val[1])
+        for edge in prerequisites:
+            graphObj.addEdge(edge[0],edge[1])
+        
+        
+        if graphObj.isCycle():
+            return res 
         for i in range(numCourses):
             if i not in graphObj.nodes:
                 graphObj.nodes[i] = []
-        if graphObj.isCycle():
-            return []
+        res = graphObj.toposort()
+        return res
         
-        return graphObj.topologySort()
-            
-            
-            
-            
+        
         
