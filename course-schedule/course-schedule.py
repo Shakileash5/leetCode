@@ -1,86 +1,62 @@
 class Graph:
+    
     def __init__(self,vertices=0):
+        '''
+            This is an constructor to initialize data members
+        '''
+        
         self.nodes = {}
         self.vertices = vertices
     
-    def addEdge(self,source,destination):
-        if source in self.nodes:
-            self.nodes[source].append(destination)
+    def addEdge(self,src,dest):
+        '''
+            This function add nodes to the graph
+        '''
+        if src not in self.nodes:
+            self.nodes[src] = [dest]
         else:
-            self.nodes[source] = [destination]
+            self.nodes[src].append(dest)
     
-    def dfsUtil(self,node,visited):
-        if node in visited:
-            return
-        print(node)
-        visited.add(node)
-        if node in self.nodes:
-            for vertices in self.nodes[node]:
-                if vertices not in visited:
-                    self.dfsUtil(vertices,visited)
-        return
-    
-    def dfs(self):
-        visited = set()
-        for node in self.nodes:
-            if node not in visited:
-                self.dfsUtil(node,visited)
-        return
-    
-    def topologySortUtil(self,node,visited,stack):
-        if node in visited:
-            return
-        #print(node)
-        visited.add(node)
-        if node in self.nodes:
-            for vertices in self.nodes[node]:
-                if vertices not in visited:
-                    self.topologySortUtil(vertices,visited,stack)
-        stack.append(node)
-        return    
-        
-    def topologySort(self):
-        visited = set()
-        stack = []
-        for node in self.nodes:
-            if node not in visited:
-                self.topologySortUtil(node,visited,stack)
-        
-        return stack
-    
-    def cycleUtil(self,node,visited,stack):
+    def isCycleUtil(self,node,stack,visited):
+        '''
+            This is an helper function to check wheather cycle exists in nodes
+        '''
         if node not in self.nodes:
-            return True
-        if node in visited:
-            return True
-        if node in stack:
             return False
+        if node in visited:
+            return False
+        if node in stack:
+            return True
         
         stack.add(node)
-        for vertice in self.nodes[node]:
-            if self.cycleUtil(vertice,visited,stack) == False:
-                return False
+        for neighbour in self.nodes[node]:
+            if self.isCycleUtil(neighbour,stack,visited):
+                return True
         visited.add(node)
-        return True
+        return False
     
     def isCycle(self):
-        visited = set()
-        for node in self.nodes:
-            stack = set()
-            if self.cycleUtil(node,visited,stack) == False:
-                return False
-        return True
-            
+        '''
+            This funtion finds wheather cycle exists in nodes
+        '''
+        visited = set() # to keep track of visited nodes
+        for key in self.nodes:
+            if key not in visited:
+                stack = set()
+                if self.isCycleUtil(key,stack,visited):
+                    return True
+        return False
+        
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         
         graphObj = Graph(numCourses)
         
-        for vertices_ in prerequisites:
-            graphObj.addEdge(vertices_[0],vertices_[1])
+        for edges in prerequisites:
+            graphObj.addEdge(edges[0],edges[1])
         
-        #print(graphObj.nodes)
-        #visited = set()
-        #graphObj.dfs()
-        #print(graphObj.topologySort())
-        return graphObj.isCycle()
+        return graphObj.isCycle() == False
+        
+        
+        
+        
