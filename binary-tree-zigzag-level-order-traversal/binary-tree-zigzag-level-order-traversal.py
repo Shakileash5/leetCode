@@ -5,63 +5,43 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def zigzagSolTwo(self,root):
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        '''
+            This function returns the zigzag order of the tree
+        '''
+        
         if root == None:
             return []
-        res = []
+        
+        queue = [] # queue to perform bfs
+        queueUtil = [] # util queue to keep track of childrens of the present level
+        
+        res = [] 
         resUtil = []
-        queue = []
-        queueUtil = []
-        count = 1
+        count = 0 # to keep Track of the odd and even level 
+        
         queue.append(root)
+        res.append([root.val])
         
-        while queue:
-            node = queue.pop(0)
-            resUtil.append(node.val)
-            if node.left:
-                queueUtil.append(node.left)
-            if node.right:
-                queueUtil.append(node.right)
-                
-            if queue==[]:
-                if count%2==0:
-                        resUtil = resUtil[::-1]
+        while(queue):
+            while(queue):
+                # store every children from current level into queueUtil
+                node = queue.pop(0)
+                if node.left:
+                    queueUtil.append(node.left)
+                    resUtil.append(node.left.val)
+                if node.right:
+                    queueUtil.append(node.right)
+                    resUtil.append(node.right.val)
+            
+            if queue == [] and queueUtil != []:
+                queue = queueUtil[:]
+                if count %2 == 0:
+                    resUtil = resUtil[::-1]
                 res.append(resUtil[:])
-                if queueUtil:
-                    queue = queueUtil.copy()
-                queueUtil = []
                 resUtil = []
-                count+=1
+                queueUtil = []
+            count += 1
+                
         return res
-        
-    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
-        def solutionOne():
-            if root == None:
-                return []
-            resQueqe = []
-            resQueqe.append(root)
-            resQueqeAlter = []
-            count = 0
-            zigZag = []
-
-            while(len(resQueqe)>0):
-                res = resQueqe.pop(0)
-                if len(zigZag)<count+1:
-                    if (count)%2==0 and count !=0:
-                        zigZag[-1] = zigZag[-1][::-1]
-                    zigZag.append([res.val])
-                else:
-                    zigZag[count].append(res.val)
-                if res.left!=None:
-                    resQueqeAlter.append(res.left)
-                if res.right!=None:
-                    resQueqeAlter.append(res.right)
-                if len(resQueqe)==0:
-                    resQueqe = resQueqeAlter[:]
-                    resQueqeAlter = []
-                    count+=1
-
-            if count%2==0:
-                zigZag[-1] = zigZag[-1][::-1]
-        #return zigZag
-        return self.zigzagSolTwo(root)    
+                
