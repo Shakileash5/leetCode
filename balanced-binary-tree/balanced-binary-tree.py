@@ -7,27 +7,19 @@
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         
-        def getHeight(root):
+        def dfs(root):
             if root == None:
                 return 0
             
-            return max(getHeight(root.left),getHeight(root.right))+1
-        
-        #print(getHeight(root))
-        
-        def isBalancedHelper(root):
-            if root == None:
-                return True
+            left = dfs(root.left)+1
+            if left == float('inf'):
+                return float('inf')
             
-            lHeight = getHeight(root.left)
-            rHeight = getHeight(root.right)
-            if abs(lHeight-rHeight)>1:
-                return False
-            if isBalancedHelper(root.left) == False:
-                return False
-            if isBalancedHelper(root.right) == False:
-                return False
-            return True
-        
-        return isBalancedHelper(root)
+            right = dfs(root.right)+1
             
+            if abs(left-right)>1:
+                return float('inf')
+            else:
+                return max(left,right)
+        
+        return dfs(root) != float('inf')
