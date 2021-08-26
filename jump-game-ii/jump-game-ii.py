@@ -59,5 +59,5 @@ class Solution:
                         queue.append([i+idx,level+1])
             return -1
         
-        #return recur(0)
-        return bfs()
+        return recur(0)
+        #return bfs()
