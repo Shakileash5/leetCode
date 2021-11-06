@@ -1,6 +1,6 @@
 <h2>260. Single Number III</h2><h3>Medium</h3><hr><div><p>Given an integer array <code>nums</code>, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in <strong>any order</strong>.</p>
 
-<p><strong>Follow up:&nbsp;</strong>Your algorithm should run in linear runtime complexity. Could you implement it using only constant space complexity?</p>
+<p>You must write an&nbsp;algorithm that runs in linear runtime complexity and uses&nbsp;only constant extra space.</p>
 
 <p>&nbsp;</p>
 <p><strong>Example 1:</strong></p>
