@@ -1,20 +1,29 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        alphaStore = set()
-        start = 0
-        end = 0
-        n = len(s)
-        maxSubString = 1
-        if s == "":
-            return 0
-        while end<n:
-            if s[end] in alphaStore:
-                alphaStore.remove(s[start])
-                start +=1         
-            else:
-                alphaStore.add(s[end])
-                maxSubString = max(end - start +1 ,maxSubString)
-                end+=1   
+        def soltwo():
+            left = 0
+            right = 0
+            longest = 0
+            currLongest = 0
+            hashMap = {}
+            size = len(s)
+            
+            while(left<size):
+                if s[left] not in hashMap:
+                    currLongest = left - right + 1
+                    longest = max(currLongest,longest)
+                    hashMap[s[left]] = left
+                    left += 1
+                else:
+                    right = hashMap[s[left]] + 1
+                    del hashMap[s[left]]
+                    keys = list(hashMap.keys())
+                    for key in keys:
+                        if hashMap[key] < right:
+                            del hashMap[key]
+                #print(hashMap,right,left,currLongest)   
+            return longest
+                    
         
         def solutionWithHash():
             alphaBet={}
@@ -42,4 +51,4 @@ class Solution:
         #print(solutionWithHash())
         
         #return maxSubString
-        return solutionWithHash()
+        return soltwo()
