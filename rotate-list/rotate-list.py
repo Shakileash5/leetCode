@@ -4,38 +4,41 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         
         size = 0
-        tempHead = head
-        
-        while tempHead:
+        if k == 0 or head == None:
+            return head
+        temp = head
+        while(temp):
+            temp = temp.next
             size += 1
-            tempHead = tempHead.next
-        if size == 0:
-            return None
-        k = k%size
-        if k == 0 or k == size:
+        
+        if size == 1:
             return head
         
-        nthNode = head
-        prevNth = None
-        tempNode = head
-        idx = 1
-        prev = None
+        k = k%size
         
-        while(head):
-            if idx>k:
-                prevNth = nthNode
+        nthNode = head
+        temp = head
+        count = 0
+        prev = None
+        lastNode = None
+        
+        while(temp and k):
+            if count >= k:
+                prev = nthNode
                 nthNode = nthNode.next
-            prev = head
-            head = head.next
-            idx += 1
-            
-        #print(prevNth,nthNode,prev)
-        temp = nthNode
-        prevNth.next = None
+            lastNode = temp
+            temp = temp.next
+            count += 1
+        
+        if prev == None:
+            return head
+        
+        #print(nthNode.val,prev.val,lastNode.val)
+        prev.next = None
+        lastNode.next = head
         head = nthNode
-        prev.next = tempNode
         return head
         
