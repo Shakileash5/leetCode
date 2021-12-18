@@ -1,28 +1,30 @@
 class Solution:
+    
+    def dfs(self,board,idxR,idxC,word,visited,sizeR,sizeC,idx):
+        if (idxR,idxC) in visited:
+            return False
+        if idx>=len(word):
+            return True
+        visited.add((idxR,idxC))
+        #print(idxR,idxC)
+        for x,y in [(0,1),(1,0),(0,-1),(-1,0)]:
+            if 0<= (x+idxR) and (x+idxR)<sizeR and 0<=(y+idxC) and (y+idxC)<sizeC:
+                if board[(x+idxR)][(y+idxC)] == word[idx]:
+                    if self.dfs(board,x+idxR,y+idxC,word,visited,sizeR,sizeC,idx+1):
+                        return True
+        visited.remove((idxR,idxC))
+        return False
+    
     def exist(self, board: List[List[str]], word: str) -> bool:
-        sizeRow = len(board)
-        sizeCol = len(board[0])
+        sizeR = len(board)
+        sizeC = len(board[0])
         size = len(word)
         
-        def searchWord(idxR,idxC,idx,visited):
-            if idx>=size:
-                return True
-            
-            visited.add((idxR,idxC))
-            for x,y in [(idxR+1,idxC),(idxR,idxC+1),(idxR-1,idxC),(idxR,idxC-1)]:
-                if 0<=x<sizeRow and 0<=y<sizeCol:
-                    if board[x][y] == word[idx] and (x,y) not in visited:
-                        if searchWord(x,y,idx+1,visited):
-                            return True
-            visited.remove((idxR,idxC))
-            return False
-        
-        #print(searchWord(0,0,1,set()))
-        for i in range(sizeRow):
-            for j in range(sizeCol):
+        for i in range(sizeR):
+            for j in range(sizeC):
                 if board[i][j] == word[0]:
-                    visited = set()
-                    if searchWord(i,j,1,visited):
+                    res = self.dfs(board,i,j,word,set(),sizeR,sizeC,1)
+                    if res:
                         return True
         
         return False
