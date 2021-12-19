@@ -5,19 +5,32 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def pruneTree(self, root: TreeNode) -> TreeNode:
+    def pruneTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         
-        def recur(root):
+        def dfs(root):
             if root == None:
                 return None
             
-            root.left = recur(root.left)
-            root.right = recur(root.right)
+            root.left = dfs(root.left)
+            root.right = dfs(root.right)
             
             if root.left == None and root.right == None and root.val == 0:
                 return None
             return root
         
-        return recur(root)
+        def dfs2(root):
+            if root == None:
+                return None,False
             
+            root.left,flag1 = dfs2(root.left)
+            root.right,flag2 = dfs2(root.right)
+            if flag1 == False:
+                root.left = None
+            if flag2 == False:
+                root.right = None
+            if flag1 == False and flag2 == False and root.val == 0:
+                return None,False
+            return root,True
             
+        root,flag = dfs2(root)
+        return root
